@@ -9,9 +9,6 @@ const session= require ('express-session');
 const passport= require('passport')
 
 
-// import { MONGODB_URI, PORT } from "./config.js";
-
-// import { connectDB} from "./database.js";
 
 //Inicializations
 const app = express();
@@ -70,13 +67,13 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 
-app.get('/test', function (_req, res) {
-  Kitten.find({}).then(kittens => {
-      res.render('test.hbs', {
-          kittens: kittens.map(kitten => kitten.toJSON())
-      })
-  })
-});
+// app.get('/test', function (_req, res) {
+//   Kitten.find({}).then(kittens => {
+//       res.render('test.hbs', {
+//           kittens: kittens.map(kitten => kitten.toJSON())
+//       })
+//   })
+// });
 
 
 
