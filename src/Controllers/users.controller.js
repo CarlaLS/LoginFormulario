@@ -3,6 +3,8 @@ const usersController = {};
 const passport= require('passport')
 const User = require('../models/User')
 
+
+
 usersController.renderSingUpForm = (req, res) => {
     res.render ('users/signup')
 
@@ -20,7 +22,7 @@ usersController.signup = async (req, res) => {
         errors.push({text:'La contraseña debe tener más de 4 caracteres'})
     }
     if(errors.length > 0) {
-        res.render('users/signup' ,{
+        res.render('/users/signup' ,{
             errors,
             name,
             email,
@@ -65,5 +67,6 @@ usersController.logout =async (req, res )=> {
     res.redirect("/users/signin");
     });
 }
+
 
 module.exports =usersController

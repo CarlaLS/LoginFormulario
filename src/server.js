@@ -1,18 +1,19 @@
 
 const express = require ('express');
+const session = require('express-session')
 const path = require('path');
 const {engine} =require ('express-handlebars');
 const methodOverride= require('method-override');
 const morgan = require('morgan');
-const flash = require('connect-flash');
-const session= require ('express-session');
-const passport= require('passport')
+const MongoStore = require ('connect-mongo');
+const flash= require('connect-flash');
+const passport =require('passport');
 
-
-
+// const MONGO_ATLAS=require('./database')
 //Inicializations
 const app = express();
 require('./config/passport')
+
 
 //Settings
 app.set('views', path.join(__dirname, 'views'))
@@ -37,15 +38,29 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'))
-app.use (session ({
-     secret: 'secret',
-     resave: true,
-     saveUninitialized:true
- })),
 
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(flash())
+app.use(session({
+  
+  
+  store: MongoStore.create({ mongoUrl: 'mongodb+srv://Carla:carla@cluster0.sktlunu.mongodb.net/myprimerdb?retryWrites=true&w=majority'}),
+  secret: 'shhhhhhhhhhhhhhhhhhhhh',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+  
+  maxAge: 600
+  
+  }
+})
+
+  
+
+  )
+
+
+app.use(passport.initialize());
+app.use(passport.session());  
+app.use(flash());
 
 
 //Global Variables
@@ -66,14 +81,6 @@ app.use(require('./routes/usuarios.routes'))
 app.use(express.static(path.join(__dirname,'public')));
 
 
-
-// app.get('/test', function (_req, res) {
-//   Kitten.find({}).then(kittens => {
-//       res.render('test.hbs', {
-//           kittens: kittens.map(kitten => kitten.toJSON())
-//       })
-//   })
-// });
 
 
 
